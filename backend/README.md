@@ -22,6 +22,12 @@ API will be available at:
 - `http://localhost:8080/health`
 - `http://localhost:8080/api/subscribe`
 
+## Deploy notes (Supabase / Render)
+
+- In Supabase you can use a single connection string (**DATABASE_URL**) for the API.
+- Supabase обычно требует SSL — set `PGSSLMODE=require` (or `PGSSL=true`).
+- Make sure `CORS_ORIGINS` includes your GitHub Pages origin: `https://vyacheslavst.github.io`
+
 ## Connect the website to your API
 
 In `index.html` you can set the API base URL (for production):

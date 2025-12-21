@@ -24,17 +24,34 @@ function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
 }
 
-async function main() {
-  const PORT = Number(env("PORT", "8080"));
+function makePgPool() {
+  const sslMode = env("PGSSLMODE", "").toLowerCase();
+  const useSsl = sslMode === "require" || env("PGSSL", "").toLowerCase() === "true";
+  const ssl = useSsl ? { rejectUnauthorized: false } : undefined;
 
-  const pool = new Pool({
+  if (process.env.DATABASE_URL && String(process.env.DATABASE_URL).trim()) {
+    return new Pool({
+      connectionString: process.env.DATABASE_URL,
+      ssl,
+      max: 10,
+    });
+  }
+
+  return new Pool({
     host: env("PGHOST", "127.0.0.1"),
     port: Number(env("PGPORT", "5432")),
     user: env("PGUSER", "bonya"),
     password: env("PGPASSWORD", "bonya"),
     database: env("PGDATABASE", "bonya"),
+    ssl,
     max: 10,
   });
+}
+
+async function main() {
+  const PORT = Number(env("PORT", "8080"));
+
+  const pool = makePgPool();
 
   // Ensure table exists (id + email).
   await pool.query(
