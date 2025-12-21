@@ -16,4 +16,14 @@ After a minute, your site should be available here:
 
 - `https://vyacheslavst.github.io/cursor1/`
 
+## Email subscription (MySQL)
+
+GitHub Pages is static, so saving emails requires a separate backend API.
+
+- Backend code: `backend/`
+- Local run (requires Docker): `docker compose up`
+- API endpoints:
+  - `http://localhost:8080/health`
+  - `http://localhost:8080/api/subscribe`
+
 
