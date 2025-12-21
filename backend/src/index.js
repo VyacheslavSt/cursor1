@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const mysql = require("mysql2/promise");
+const { Pool } = require("pg");
 
 function env(name, fallback) {
   const v = process.env[name];
@@ -27,26 +27,24 @@ function isValidEmail(email) {
 async function main() {
   const PORT = Number(env("PORT", "8080"));
 
-  const pool = mysql.createPool({
-    host: env("MYSQL_HOST", "127.0.0.1"),
-    port: Number(env("MYSQL_PORT", "3306")),
-    user: env("MYSQL_USER", "bonya"),
-    password: env("MYSQL_PASSWORD", "bonya"),
-    database: env("MYSQL_DATABASE", "bonya"),
-    waitForConnections: true,
-    connectionLimit: 10,
+  const pool = new Pool({
+    host: env("PGHOST", "127.0.0.1"),
+    port: Number(env("PGPORT", "5432")),
+    user: env("PGUSER", "bonya"),
+    password: env("PGPASSWORD", "bonya"),
+    database: env("PGDATABASE", "bonya"),
+    max: 10,
   });
 
   // Ensure table exists (id + email).
   await pool.query(
     "CREATE TABLE IF NOT EXISTS subscriptions (" +
-      "id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT," +
+      "id BIGSERIAL PRIMARY KEY," +
       "email VARCHAR(254) NOT NULL," +
-      "created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP," +
-      "PRIMARY KEY (id)," +
-      "UNIQUE KEY uq_subscriptions_email (email)" +
+      "created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()" +
       ")"
   );
+  await pool.query("CREATE UNIQUE INDEX IF NOT EXISTS uq_subscriptions_email ON subscriptions (email)");
 
   const app = express();
 
@@ -82,7 +80,7 @@ async function main() {
         return res.status(400).json({ ok: false, error: "invalid_email" });
       }
 
-      await pool.query("INSERT INTO subscriptions (email) VALUES (?) ON DUPLICATE KEY UPDATE email=email", [email]);
+      await pool.query("INSERT INTO subscriptions (email) VALUES ($1) ON CONFLICT (email) DO NOTHING", [email]);
       return res.json({ ok: true });
     } catch (e) {
       return res.status(500).json({ ok: false, error: "server_error" });

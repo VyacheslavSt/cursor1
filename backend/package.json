@@ -2,7 +2,7 @@
   "name": "bonya-backend",
   "private": true,
   "version": "1.0.0",
-  "description": "Backend API for Bonya website subscriptions (stores emails in MySQL).",
+  "description": "Backend API for Bonya website subscriptions (stores emails in Postgres).",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js"
@@ -10,7 +10,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.19.2",
-    "mysql2": "^3.11.5"
+    "pg": "^8.13.1"
   }
 }
 

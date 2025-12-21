@@ -1,6 +1,6 @@
-# Bonya backend (MySQL subscriptions)
+# Bonya backend (Postgres subscriptions)
 
-GitHub Pages hosts only static files, so saving emails to MySQL requires a separate backend API.
+GitHub Pages hosts only static files, so saving emails to Postgres requires a separate backend API.
 
 ## Database table
 
