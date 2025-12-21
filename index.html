@@ -289,6 +289,51 @@
           monospace;
         font-size: 0.95em;
       }
+
+      .controls {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+        margin: 10px 0 12px;
+      }
+      .btn {
+        appearance: none;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--text);
+        padding: 10px 12px;
+        border-radius: 12px;
+        font-weight: 800;
+        cursor: pointer;
+        transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+      }
+      .btn:hover {
+        transform: translateY(-1px);
+        background: rgba(255, 255, 255, 0.09);
+        border-color: rgba(255, 255, 255, 0.22);
+      }
+      .btn:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+        transform: none;
+      }
+      .input {
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(0, 0, 0, 0.12);
+        color: var(--text);
+        padding: 10px 12px;
+        border-radius: 12px;
+        outline: none;
+        min-width: min(420px, 100%);
+      }
+      .input::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+      }
+      .status {
+        color: var(--muted);
+        font-size: 13px;
+      }
     </style>
   </head>
   <body>
@@ -305,6 +350,7 @@
           <a class="pill" href="#photos">Фото</a>
           <a class="pill" href="#about">О Боне</a>
           <a class="pill" href="#pedigree">Родословная</a>
+          <a class="pill" href="#subscribe">Подписка</a>
         </nav>
       </header>
 
@@ -403,6 +449,28 @@
           </section>
         </div>
 
+        <section id="subscribe" aria-label="Email subscription">
+          <h2>Получать новые фото Бони</h2>
+          <p>Оставьте email — мы добавим его в базу и будем присылать обновления, когда появятся новые фото.</p>
+          <form id="subscribeForm" class="controls">
+            <input
+              class="input"
+              id="subscribeEmail"
+              name="email"
+              type="email"
+              autocomplete="email"
+              placeholder="you@example.com"
+              required
+            />
+            <button class="btn" id="subscribeBtn" type="submit">Подписаться</button>
+            <span class="status" id="subscribeStatus">Статус: готово</span>
+          </form>
+          <p class="note" style="margin-top: 6px">
+            Технически: форма отправляет запрос на API, которое сохраняет email в MySQL. Адрес API задаётся через
+            <code>window.BONYA_API_BASE</code> (по умолчанию <code>http://localhost:8080</code>).
+          </p>
+        </section>
+
         <footer>
           Сделано с любовью для Бони. Замените изображения в <code>assets/bonya/</code>, чтобы страница стала по-настоящему её.
         </footer>
@@ -440,12 +508,78 @@
         }
 
         var imgs = document.querySelectorAll("img.bonya-photo");
-        imgs.forEach(function (img, idx) {
+        imgs.forEach(function (img) {
           img.addEventListener("error", function () {
             applyFallback(img);
           });
           // If browser loads instantly and errors before listener, guard:
           if (img.complete && img.naturalWidth === 0) applyFallback(img);
+        });
+      })();
+    </script>
+
+    <script>
+      (function () {
+        var form = document.getElementById("subscribeForm");
+        var input = document.getElementById("subscribeEmail");
+        var btn = document.getElementById("subscribeBtn");
+        var status = document.getElementById("subscribeStatus");
+
+        if (!form || !input || !btn || !status) return;
+
+        function setStatus(text) {
+          status.textContent = "Статус: " + text;
+        }
+
+        function getApiBase() {
+          return (window.BONYA_API_BASE || "http://localhost:8080").replace(/\/+$/, "");
+        }
+
+        // Helpful hint for GitHub Pages if API was not configured.
+        try {
+          var base = getApiBase();
+          if (
+            window.location &&
+            window.location.hostname &&
+            window.location.hostname.endsWith("github.io") &&
+            /^http:\/\/localhost(?::\d+)?$/i.test(base)
+          ) {
+            setStatus("нужен сервер (API) — сейчас указан localhost");
+          }
+        } catch (_e) {}
+
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var email = String(input.value || "").trim();
+          if (!email) return;
+
+          btn.disabled = true;
+          setStatus("отправляю…");
+
+          fetch(getApiBase() + "/api/subscribe", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: email }),
+          })
+            .then(function (r) {
+              return r.json().catch(function () {
+                return { ok: r.ok, error: "invalid_json" };
+              });
+            })
+            .then(function (data) {
+              if (data && data.ok) {
+                setStatus("готово — вы подписаны!");
+                input.value = "";
+              } else {
+                setStatus("ошибка: " + (data && data.error ? data.error : "unknown"));
+              }
+            })
+            .catch(function () {
+              setStatus("не удалось связаться с сервером");
+            })
+            .finally(function () {
+              btn.disabled = false;
+            });
         });
       })();
     </script>
