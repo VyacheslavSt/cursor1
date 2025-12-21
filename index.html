@@ -1,13 +1,456 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Hello, world!</title>
+    <title>Bonya — our good girl</title>
+    <meta name="description" content="A small page dedicated to Bonya — photos, personality, and pedigree." />
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #0b1020;
+        --card: rgba(255, 255, 255, 0.06);
+        --card-2: rgba(255, 255, 255, 0.09);
+        --text: rgba(255, 255, 255, 0.92);
+        --muted: rgba(255, 255, 255, 0.68);
+        --line: rgba(255, 255, 255, 0.14);
+        --accent: #ffcc66;
+        --accent-2: #a8ffea;
+        --shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+        --radius: 18px;
+        --max: 1080px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+          "Apple Color Emoji", "Segoe UI Emoji";
+        background: radial-gradient(1200px 800px at 14% 10%, rgba(255, 204, 102, 0.18), transparent 55%),
+          radial-gradient(900px 600px at 80% 30%, rgba(168, 255, 234, 0.14), transparent 60%),
+          radial-gradient(900px 900px at 35% 110%, rgba(161, 122, 255, 0.10), transparent 60%),
+          var(--bg);
+        color: var(--text);
+        line-height: 1.5;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .wrap {
+        max-width: var(--max);
+        margin: 0 auto;
+        padding: 32px 20px 56px;
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 6px 0 22px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+      }
+      .badge {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, rgba(255, 204, 102, 0.92), rgba(168, 255, 234, 0.78));
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        display: grid;
+        place-items: center;
+        color: rgba(0, 0, 0, 0.72);
+        font-weight: 900;
+      }
+
+      nav {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 12px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 999px;
+        color: var(--muted);
+        transition: transform 120ms ease, background 120ms ease;
+      }
+      .pill:hover {
+        transform: translateY(-1px);
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .hero {
+        border: 1px solid var(--line);
+        border-radius: calc(var(--radius) + 6px);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.03));
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .heroGrid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 18px;
+        padding: 22px;
+      }
+      @media (max-width: 920px) {
+        .heroGrid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .kicker {
+        color: var(--muted);
+        font-weight: 600;
+        letter-spacing: 0.35px;
+        text-transform: uppercase;
+        font-size: 12px;
+      }
+      h1 {
+        margin: 8px 0 10px;
+        font-size: clamp(34px, 4.2vw, 54px);
+        line-height: 1.05;
+      }
+      .accent {
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .lede {
+        color: var(--muted);
+        font-size: 16px;
+        max-width: 62ch;
+        margin: 0 0 14px;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 14px;
+      }
+      @media (max-width: 520px) {
+        .stats {
+          grid-template-columns: 1fr;
+        }
+      }
+      .stat {
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 14px;
+        padding: 12px 12px;
+      }
+      .stat b {
+        display: block;
+        font-size: 14px;
+        margin-bottom: 2px;
+      }
+      .stat span {
+        display: block;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .heroCard {
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: var(--radius);
+        padding: 14px;
+        display: grid;
+        gap: 10px;
+        align-content: start;
+      }
+      .heroPhoto {
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        border-radius: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        object-fit: cover;
+        background: rgba(255, 255, 255, 0.04);
+      }
+      .note {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      main {
+        margin-top: 18px;
+        display: grid;
+        gap: 16px;
+      }
+
+      .grid2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      @media (max-width: 920px) {
+        .grid2 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      section {
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: var(--radius);
+        padding: 18px;
+      }
+      h2 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        letter-spacing: 0.2px;
+      }
+      p {
+        margin: 0 0 10px;
+        color: var(--muted);
+      }
+      ul {
+        margin: 10px 0 0;
+        padding-left: 18px;
+        color: var(--muted);
+      }
+      li + li {
+        margin-top: 6px;
+      }
+
+      .galleryHeader {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+      }
+      .galleryHeader p {
+        margin: 0;
+        max-width: 70ch;
+      }
+
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 10px;
+      }
+      .tile {
+        grid-column: span 4;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 16px;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.04);
+      }
+      .tile img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+        aspect-ratio: 4 / 3;
+      }
+      .tile.wide {
+        grid-column: span 8;
+      }
+      @media (max-width: 920px) {
+        .tile,
+        .tile.wide {
+          grid-column: span 12;
+        }
+      }
+
+      footer {
+        margin-top: 16px;
+        color: rgba(255, 255, 255, 0.52);
+        font-size: 12px;
+        text-align: center;
+      }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+          monospace;
+        font-size: 0.95em;
+      }
+    </style>
   </head>
   <body>
-    <h1>Hello, world!</h1>
-    <p>Это простейшая HTML-страница.</p>
+    <div class="wrap">
+      <header>
+        <div class="brand">
+          <div class="badge">B</div>
+          <div>
+            <div style="color: rgba(255, 255, 255, 0.72); font-size: 12px; font-weight: 700">
+              Bonya fan page
+            </div>
+            <div style="font-size: 14px; font-weight: 800">Bonya</div>
+          </div>
+        </div>
+        <nav aria-label="Page sections">
+          <a class="pill" href="#photos">Photos</a>
+          <a class="pill" href="#about">About</a>
+          <a class="pill" href="#pedigree">Pedigree</a>
+        </nav>
+      </header>
+
+      <div class="hero">
+        <div class="heroGrid">
+          <div>
+            <div class="kicker">A page dedicated to our dog</div>
+            <h1>Meet <span class="accent">Bonya</span>.</h1>
+            <p class="lede">
+              Equal parts cuddle expert, watchful guardian, and professional snack negotiator. This is her little
+              corner of the internet: photos, personality highlights, and a (very) proud pedigree section.
+            </p>
+
+            <div class="stats" aria-label="Bonya highlights">
+              <div class="stat">
+                <b>Superpower</b>
+                <span>Making strangers say “awww” in 0.2 seconds</span>
+              </div>
+              <div class="stat">
+                <b>Favorite hobby</b>
+                <span>Quality control on every walk route</span>
+              </div>
+              <div class="stat">
+                <b>Signature move</b>
+                <span>The “I’m innocent” look (always works)</span>
+              </div>
+            </div>
+          </div>
+
+          <aside class="heroCard" aria-label="Featured photo">
+            <img
+              class="heroPhoto bonya-photo"
+              src="assets/bonya/bonya-01.jpg"
+              alt="Bonya looking like the best girl"
+              loading="eager"
+              decoding="async"
+            />
+            <div class="note">
+              Tip: put your photos into <code>assets/bonya/</code> as <code>bonya-01.jpg</code>, <code>bonya-02.jpg</code>,
+              ...
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <main>
+        <section id="photos" aria-label="Photo gallery">
+          <div class="galleryHeader">
+            <h2>Photos</h2>
+            <p>
+              Add Bonya’s real photos into <code>assets/bonya/</code>. If a file is missing, you’ll see a neat placeholder
+              instead of a broken image.
+            </p>
+          </div>
+          <div class="gallery">
+            <div class="tile wide">
+              <img class="bonya-photo" src="assets/bonya/bonya-02.jpg" alt="Bonya on an adventure" loading="lazy" />
+            </div>
+            <div class="tile">
+              <img class="bonya-photo" src="assets/bonya/bonya-03.jpg" alt="Bonya being curious" loading="lazy" />
+            </div>
+            <div class="tile">
+              <img class="bonya-photo" src="assets/bonya/bonya-04.jpg" alt="Bonya taking a break" loading="lazy" />
+            </div>
+            <div class="tile">
+              <img class="bonya-photo" src="assets/bonya/bonya-05.jpg" alt="Bonya with her favorite toy" loading="lazy" />
+            </div>
+          </div>
+        </section>
+
+        <div class="grid2">
+          <section id="about" aria-label="About Bonya">
+            <h2>About Bonya</h2>
+            <p>
+              Bonya is the kind of dog who knows exactly when you need a little extra joy. She’s brave, gentle, and
+              suspiciously smart when treats are involved.
+            </p>
+            <ul>
+              <li><b>Personality:</b> affectionate, alert, playful, extremely persuasive</li>
+              <li><b>Likes:</b> long walks, cozy blankets, compliments, and being included</li>
+              <li><b>Dislikes:</b> vacuum cleaners and “we’re out of snacks”</li>
+            </ul>
+          </section>
+
+          <section id="pedigree" aria-label="Pedigree">
+            <h2>Pedigree (Uh, all right!)</h2>
+            <p>
+              Official paperwork may be boring — so here’s our very serious, very scientific pedigree summary for Bonya.
+            </p>
+            <ul>
+              <li><b>Lineage:</b> 50% good girl, 50% best girl</li>
+              <li><b>Noble house:</b> House of Warm Lap &amp; Treats</li>
+              <li><b>Distinctions:</b> Grand Champion of Tail Wags, Master of Side-Eye</li>
+              <li><b>Motto:</b> “If I fits, I sits.”</li>
+            </ul>
+          </section>
+        </div>
+
+        <footer>
+          Made with love for Bonya. Replace the images in <code>assets/bonya/</code> to make it truly hers.
+        </footer>
+      </main>
+    </div>
+
+    <script>
+      (function () {
+        function svgPlaceholder(label) {
+          var safe = String(label || "Bonya").replace(/[<>&]/g, "");
+          var svg =
+            '<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">' +
+            '<defs>' +
+            '<linearGradient id="g" x1="0" x2="1" y1="0" y2="1">' +
+            '<stop offset="0" stop-color="#ffcc66" stop-opacity="0.35"/>' +
+            '<stop offset="1" stop-color="#a8ffea" stop-opacity="0.25"/>' +
+            "</linearGradient>" +
+            "</defs>" +
+            '<rect width="1200" height="900" fill="#11192f"/>' +
+            '<rect x="40" y="40" width="1120" height="820" rx="44" fill="url(#g)" stroke="rgba(255,255,255,0.16)" />' +
+            '<text x="600" y="440" text-anchor="middle" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" font-size="62" fill="rgba(255,255,255,0.9)" font-weight="800">' +
+            safe +
+            "</text>" +
+            '<text x="600" y="510" text-anchor="middle" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" font-size="26" fill="rgba(255,255,255,0.65)">' +
+            "Drop photos into assets/bonya/" +
+            "</text>" +
+            "</svg>";
+          return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
+        }
+
+        function applyFallback(img) {
+          if (img.dataset.fallbackApplied) return;
+          img.dataset.fallbackApplied = "1";
+          img.src = svgPlaceholder(img.alt || "Bonya");
+        }
+
+        var imgs = document.querySelectorAll("img.bonya-photo");
+        imgs.forEach(function (img, idx) {
+          img.addEventListener("error", function () {
+            applyFallback(img);
+          });
+          // If browser loads instantly and errors before listener, guard:
+          if (img.complete && img.naturalWidth === 0) applyFallback(img);
+        });
+      })();
+    </script>
   </body>
 </html>
 
