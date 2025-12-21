@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1200" viewBox="0 0 1600 1200">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#11192f"/>
+      <stop offset="1" stop-color="#0b1020"/>
+    </linearGradient>
+    <linearGradient id="fur" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#f7f2ea"/>
+      <stop offset="1" stop-color="#e9e1d7"/>
+    </linearGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="rgba(0,0,0,0.45)"/>
+    </filter>
+  </defs>
+
+  <!-- background -->
+  <rect width="1600" height="1200" fill="url(#bg)"/>
+  <circle cx="320" cy="260" r="330" fill="rgba(255,204,102,0.18)"/>
+  <circle cx="1260" cy="380" r="360" fill="rgba(168,255,234,0.12)"/>
+  <circle cx="880" cy="1130" r="420" fill="rgba(161,122,255,0.10)"/>
+
+  <!-- ground glow -->
+  <ellipse cx="830" cy="930" rx="520" ry="140" fill="rgba(0,0,0,0.32)" filter="url(#soft)"/>
+
+  <!-- spotted poodle illustration: "Пудиль" -->
+  <g transform="translate(0,0)" filter="url(#shadow)">
+    <!-- body -->
+    <ellipse cx="880" cy="760" rx="320" ry="210" fill="url(#fur)" stroke="rgba(255,255,255,0.18)" stroke-width="6"/>
+    <!-- chest -->
+    <ellipse cx="720" cy="780" rx="170" ry="150" fill="rgba(255,255,255,0.35)"/>
+
+    <!-- head -->
+    <circle cx="610" cy="560" r="190" fill="url(#fur)" stroke="rgba(255,255,255,0.18)" stroke-width="6"/>
+    <!-- muzzle -->
+    <ellipse cx="520" cy="610" rx="160" ry="120" fill="rgba(255,255,255,0.45)"/>
+    <ellipse cx="500" cy="640" rx="76" ry="58" fill="rgba(233,225,215,0.85)"/>
+
+    <!-- ears -->
+    <path d="M720 580c70 40 95 120 60 200c-50 110-160 95-190 10c-20-60 0-150 45-190c20-18 55-30 85-20z"
+      fill="url(#fur)" opacity="0.95"/>
+    <path d="M700 600c40 30 55 85 33 135c-30 68-95 58-113 6c-12-36 0-95 28-124c14-14 33-22 52-17z"
+      fill="rgba(233,225,215,0.75)"/>
+
+    <!-- legs -->
+    <g fill="url(#fur)">
+      <rect x="690" y="870" width="110" height="240" rx="54"/>
+      <rect x="830" y="880" width="120" height="250" rx="58"/>
+      <rect x="980" y="870" width="110" height="240" rx="54"/>
+    </g>
+    <g fill="rgba(233,225,215,0.9)">
+      <ellipse cx="745" cy="1120" rx="85" ry="42"/>
+      <ellipse cx="890" cy="1130" rx="92" ry="44"/>
+      <ellipse cx="1035" cy="1120" rx="85" ry="42"/>
+    </g>
+
+    <!-- tail -->
+    <path d="M1180 720c120 10 190 110 150 205c-30 70-115 85-160 35c-28-32-35-78-12-115c10-18 25-34 45-45c-20-10-32-22-35-38c-3-18 0-34 12-42z"
+      fill="url(#fur)"/>
+    <circle cx="1340" cy="880" r="58" fill="url(#fur)"/>
+
+    <!-- spots -->
+    <g fill="rgba(60,45,40,0.78)">
+      <ellipse cx="940" cy="700" rx="56" ry="44"/>
+      <ellipse cx="1010" cy="820" rx="70" ry="52"/>
+      <ellipse cx="830" cy="840" rx="48" ry="38"/>
+      <ellipse cx="780" cy="710" rx="40" ry="32"/>
+      <ellipse cx="640" cy="790" rx="36" ry="28"/>
+      <ellipse cx="560" cy="520" rx="42" ry="34"/>
+      <ellipse cx="650" cy="620" rx="58" ry="44"/>
+      <ellipse cx="450" cy="610" rx="34" ry="28"/>
+      <ellipse cx="610" cy="430" rx="30" ry="24"/>
+    </g>
+
+    <!-- face -->
+    <g>
+      <ellipse cx="560" cy="560" rx="22" ry="28" fill="#101422"/>
+      <ellipse cx="640" cy="560" rx="22" ry="28" fill="#101422"/>
+      <circle cx="553" cy="552" r="6" fill="rgba(255,255,255,0.9)"/>
+      <circle cx="633" cy="552" r="6" fill="rgba(255,255,255,0.9)"/>
+      <path d="M475 642c18 10 34 14 50 14c16 0 32-4 50-14" fill="none" stroke="rgba(16,20,34,0.7)" stroke-width="10" stroke-linecap="round"/>
+      <ellipse cx="485" cy="650" rx="22" ry="18" fill="#101422"/>
+      <path d="M515 690c35 34 74 34 110 0" fill="none" stroke="rgba(16,20,34,0.55)" stroke-width="10" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- caption -->
+  <g>
+    <rect x="120" y="88" width="820" height="120" rx="22" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.14)"/>
+    <text x="160" y="150" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" font-size="44" fill="rgba(255,255,255,0.92)" font-weight="800">Пудиль — пятнистый пудель</text>
+    <text x="160" y="192" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" font-size="22" fill="rgba(255,255,255,0.65)">Иллюстрация (можно заменить на реальное фото)</text>
+  </g>
+</svg>
+
+

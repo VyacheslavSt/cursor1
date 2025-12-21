@@ -1,18 +1,18 @@
-# Bonya photos
+# Фото Бони
 
-Put Bonya’s photos into this folder so `index.html` can show them.
+Положите фото Бони в эту папку, чтобы `index.html` мог их показать.
 
-## Recommended filenames
+## Рекомендуемые имена файлов
 
-- `bonya-01.jpg` (featured photo)
 - `bonya-02.jpg`
 - `bonya-03.jpg`
 - `bonya-04.jpg`
 - `bonya-05.jpg`
+- `pudil-spotted.svg` (главная картинка — “Пудиль”, пятнистый пудель)
 
-## Notes
+## Примечания
 
-- Use `.jpg` (or change the extensions in `index.html` if you prefer `.png`/`.webp`)
-- If any file is missing, the page will display a nice placeholder instead of a broken image.
+- Используйте `.jpg` (или поменяйте расширения в `index.html`, если предпочитаете `.png`/`.webp`)
+- Если какого-то файла нет — страница покажет приятный плейсхолдер вместо «битой» картинки.
 
 
